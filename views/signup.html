@@ -1,0 +1,24 @@
+<section style="width:80%;margin:auto">
+  <center><h1>Sign up</h1></center>
+<form>
+  <div class="form-group">
+    <label for="name">Username:</label>
+    <input type="name" class="form-control" id="name" ng-model = "user.name">
+  </div>
+  <div class="form-group">
+    <label for="phone">Phone:</label>
+    <input type="phone" class="form-control" id="phone" ng-model = "user.phone">
+  </div>
+  <div class="form-group">
+    <label for="email">Email address:</label>
+    <input type="email" class="form-control" id="email" ng-model = "user.email">
+  </div>
+  <div class="form-group">
+    <label for="pwd">Password:</label>
+    <input type="password" class="form-control" id="pwd" ng-model = "user.password">
+  </div>
+  <button type="submit" class="btn btn-default" ng-click = "createUser(user)">Submit</button>
+  <br>
+  <a ng-click = next('login') >Alreadty Member ? Login up Here</a>
+</form>
+</section>
