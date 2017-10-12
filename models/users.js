@@ -9,13 +9,13 @@ var userSchema = mongoose.Schema({
   },
   email:{
     type:String
-  }
+  },
   password:{
     type: String
   },
   address:{
     type:String
-  }  
+  }
 });
 
 var userModel = mongoose.model('user',userSchema);
