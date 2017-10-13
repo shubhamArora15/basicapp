@@ -6,7 +6,7 @@ var users = require("../models/users");
 
 
 router.post('/', function(req, res, next){
-
+  console.log(req.body);
       users.update({email: req.body.email},{$set:{password:req.body.user.password}}, function(err, data){
 
           if(data){

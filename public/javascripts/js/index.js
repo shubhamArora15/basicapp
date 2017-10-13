@@ -44,14 +44,24 @@ app.config(function($stateProvider, $urlRouterProvider) {
 
     // we will store all of our form data in this object
 
+
+
     $scope.next = function(nextState){
       $state.go(nextState);
     }
 
     // function to process the form
     $scope.createUser = function(user){
+
+      var captcha = document.querySelector("#g-recaptcha-response").value;
+      console.log(captcha);
+      if(captcha == undefined || captcha == ""){
+        alert("Please do google captcha verification");
+      }else{
       $http.post("/users", {user:user})
         .then(function(response){
+
+            alert("You email verification sent to: <br> "+ user.email);
             console.log(response.data);
             // alert("You are successfully registered");
             $http.post("/verifyEmail", {user:user})
@@ -63,9 +73,10 @@ app.config(function($stateProvider, $urlRouterProvider) {
                     console.log(response);
                     $scope.userName = user.email;
                 });
-                alert("You email verification sent to: <br> "+ user.email);
+
             });
         });
+      }
     };
 
     // function to process the form
@@ -94,7 +105,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
 
     // function to process the form
     $scope.resetPassword = function(user){
-      console.log(user, email);
+      console.log(user);
       $http.post("/resetPassword", {user:user,email:user.email})
         .then(function(response){
           console.log(response);
