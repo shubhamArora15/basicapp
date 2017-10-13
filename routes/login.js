@@ -8,7 +8,7 @@ var users = require("../models/users");
 router.post('/', function(req, res, next){
 
       users.findOne({email: req.body.user.email}, function(err, data){
-
+          
             if(data==null){
             res.send("not")
           }else{

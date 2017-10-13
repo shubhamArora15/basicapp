@@ -93,9 +93,9 @@ app.config(function($stateProvider, $urlRouterProvider) {
     };
 
     // function to process the form
-    $scope.resetPassword = function(user, email){
+    $scope.resetPassword = function(user){
       console.log(user, email);
-      $http.post("/resetPassword", {user:user,email:email})
+      $http.post("/resetPassword", {user:user,email:user.email})
         .then(function(response){
           console.log(response);
             alert("You successfully reset your password");
