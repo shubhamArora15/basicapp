@@ -25,6 +25,14 @@ app.config(function($stateProvider, $urlRouterProvider) {
             url: '/reset',
             templateUrl: 'reset.html',
             controller: 'formController'
+        }).state('resetPassword', {
+            url: '/resetPassword',
+            templateUrl: 'resetPassword.html',
+            controller: 'formController'
+        }).state('verify', {
+            url: '/verify',
+            templateUrl: 'verify.html',
+            controller: 'formController'
         });
 
     // catch all route
@@ -32,7 +40,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/');
 })
 
-.controller('formController', function($scope, $state, $http) {
+.controller('formController', function($scope, $state, $http, $rootScope) {
 
     // we will store all of our form data in this object
 
@@ -45,7 +53,18 @@ app.config(function($stateProvider, $urlRouterProvider) {
       $http.post("/users", {user:user})
         .then(function(response){
             console.log(response.data);
-            alert("You are successfully registered");
+            // alert("You are successfully registered");
+            $http.post("/verifyEmail", {user:user})
+            .then(function(response){
+              console.log(response);
+
+              $http.post("/verify")
+                .then(function(response){
+                    console.log(response);
+                    $scope.userName = user.email;
+                });
+                alert("You email verification sent to: <br> "+ user.email);
+            });
         });
     };
 
@@ -53,7 +72,6 @@ app.config(function($stateProvider, $urlRouterProvider) {
     $scope.login = function(user){
       $http.post("/login", {user:user})
         .then(function(response){
-          console.log(response);
           if(response.data == "yes"){
               alert("You Are successfully login");
           }else{
@@ -65,10 +83,28 @@ app.config(function($stateProvider, $urlRouterProvider) {
 
     // function to process the form
     $scope.reset = function(user){
+      console.log(user);
       $http.post("/reset", {user:user})
         .then(function(response){
+          console.log(response);
+            alert("You  reset confirmation sent to:<br>"+ user.email);
+            $rootScope.newEmail = response;
+        });
+    };
+
+    // function to process the form
+    $scope.resetPassword = function(user, email){
+      console.log(user, email);
+      $http.post("/resetPassword", {user:user,email:email})
+        .then(function(response){
+          console.log(response);
             alert("You successfully reset your password");
         });
     };
+
+    // $http.get("/verify")
+    //   .then(function(response){
+    //       alert("You successfully reset your password");
+    //   });
 
 });

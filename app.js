@@ -9,6 +9,11 @@ var mongoose = require('mongoose');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
+var verifyEmail = require('./routes/verifyEmail');
+var reset   = require('./routes/reset');
+var login = require('./routes/login');
+var verify = require('./routes/verify');
+var resetPassword = require('./routes/resetPassword');
 
 var app = express();
 
@@ -28,9 +33,11 @@ app.use(express.static('views'));
 
 // app.use('/', index);
 app.use('/users', users);
-app.use('/login', users);
-app.use('/reset', users);
-// app.use('/createUser', users);
+app.use('/login', login);
+app.use('/verifyEmail', verifyEmail);
+app.use('/reset', reset);
+app.use('/verify',verify);
+app.use('/resetPassword', resetPassword);
 
 var __databaseURLS = [
     {

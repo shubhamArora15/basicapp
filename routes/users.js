@@ -1,10 +1,12 @@
 
 var express = require('express');
 var router = express.Router();
+var nodemailer = require('nodemailer');
 
 var users = require("../models/users");
 
 /* GET users listing. */
+
 router.post('/', function(req, res, next) {
 
     var userData = new users({
@@ -23,35 +25,6 @@ router.post('/', function(req, res, next) {
 
     });
 
-}).post('/login', function(req, res, next){
-
-      users.findOne({email: req.body.user.email}, function(err, data){
-
-            if(data==null){
-            res.send("not")
-          }else{
-            res.send("yes");
-          }
-        })
-}).post('/reset', function(req, res, next){
-
-    /*
-      users.findOne({email: req.body.email}, function(err, data){
-        if(data!=null){
-        res.send("successfully login")
-        res.sendFile("views/signup.html")
-      }
-    })
-    */
-}).get('/verify', function(req, res, next){
-
-    /*
-      users.findOne({email: req.body.email}, function(err, data){
-        if(data!=null){
-        res.send("successfully login")
-      }
-    })
-    */
 });
 
 module.exports = router;
