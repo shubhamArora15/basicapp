@@ -60,21 +60,19 @@ app.config(function($stateProvider, $urlRouterProvider) {
       }else{
       $http.post("/users", {user:user})
         .then(function(response){
-
+            if(response.data == "already"){
+              alert("You are already member");
+            }else{
             alert("You email verification sent to: <br> "+ user.email);
-            console.log(response.data);
-            // alert("You are successfully registered");
             $http.post("/verifyEmail", {user:user})
             .then(function(response){
-              console.log(response);
-
               $http.post("/verify")
                 .then(function(response){
                     console.log(response);
                     $scope.userName = user.email;
                 });
-
             });
+          }
         });
       }
     };

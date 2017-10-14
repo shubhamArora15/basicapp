@@ -6,15 +6,15 @@ var users = require("../models/users");
 
 
 router.post('/', function(req, res, next){
-
-      users.findOne({email: req.body.user.email}, function(err, data){
-          
-            if(data==null){
-            res.send("not")
-          }else{
-            res.send("yes");
-          }
-        })
+      console.log(req.body);
+      users.find({email: req.body.user.email,password:req.body.user.password}, function(err, data){
+          console.log(data);
+          if(data.length == 0 || data == undefined){
+          res.send("not")
+        }else{
+          res.send("yes");
+        }
+      });
 });
 
 module.exports = router;

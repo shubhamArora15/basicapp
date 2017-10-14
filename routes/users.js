@@ -9,22 +9,26 @@ var users = require("../models/users");
 
 router.post('/', function(req, res, next) {
 
-    var userData = new users({
-      name: req.body.name,
-      phone: req.body.user.phone,
-      email: req.body.user.email,
-      password: req.body.user.password,
-    });
-
+  users.find({email:req.body.user.email},function(err, data){
+    if(data.length > 0 ){
+      res.send("already")
+    }else{
+      var userData = new users({
+        name: req.body.user.name,
+        phone: req.body.user.phone,
+        email: req.body.user.email,
+        password: req.body.user.password,
+      });
+      
       userData.save(function(err, data){
         if(data){
           res.send(data);
         }else{
           res.send("nothing");
         }
-
     });
-
+    }
+  });
 });
 
 module.exports = router;
