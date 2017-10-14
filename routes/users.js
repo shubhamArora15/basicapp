@@ -14,12 +14,12 @@ router.post('/', function(req, res, next) {
       res.send("already")
     }else{
       var userData = new users({
-        name: req.body.user.name,
+        name: req.body.user.username,
         phone: req.body.user.phone,
         email: req.body.user.email,
         password: req.body.user.password,
       });
-      
+
       userData.save(function(err, data){
         if(data){
           res.send(data);
