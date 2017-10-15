@@ -15,6 +15,8 @@ var reset   = require('./routes/reset');
 var login = require('./routes/login');
 var verify = require('./routes/verify');
 var resetPassword = require('./routes/resetPassword');
+var session  = require('./routes/session');
+var saveImage = require('./routes/saveImage');
 
 var app = express();
 
@@ -33,13 +35,16 @@ app.use(express.static('views'));
 app.use(cors());
 
 
-// app.use('/', index);
 app.use('/users', users);
 app.use('/login', login);
 app.use('/verifyEmail', verifyEmail);
 app.use('/reset', reset);
 app.use('/verify',verify);
 app.use('/resetPassword', resetPassword);
+app.use('/createSession', session);
+app.use('/viewSession', session);
+app.use('/saveImage', saveImage);
+
 
 var __databaseURLS = [
     {

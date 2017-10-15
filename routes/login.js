@@ -12,7 +12,7 @@ router.post('/', function(req, res, next){
           if(data.length == 0 || data == undefined){
           res.send("not")
         }else{
-          res.send("yes");
+          res.send(data);
         }
       });
 });

@@ -10,7 +10,21 @@ app.config(function($stateProvider, $urlRouterProvider) {
             templateUrl: 'signup.html',
             controller: 'formController'
         })
-
+        .state('home', {
+            url: '/home',
+            templateUrl: 'home.html',
+            controller: 'formController'
+        })
+        .state('createSession', {
+            url: '/createSession',
+            templateUrl: 'createSession.html',
+            controller: 'formController'
+        })
+        .state('viewSession', {
+            url: '/viewSession',
+            templateUrl: 'viewSession.html',
+            controller: 'formController'
+        })
         // nested states
         // each of these sections will have their own view
         // url will be nested login
@@ -38,13 +52,27 @@ app.config(function($stateProvider, $urlRouterProvider) {
     // catch all route
     // send users to the form page
     $urlRouterProvider.otherwise('/');
-})
+}).directive('fileModel', ['$parse', function($parse){
+  return {
+		restrict: 'A',
+		link: function(scope, element, attrs){
+			var model = $parse(attrs.fileModel);
+			var modelSetter = model.assign;
 
+			element.bind('change', function(){
+            scope.$apply(function(){
+                modelSetter(scope, element[0].files[0]);
+            });
+        });
+
+		}
+	}
+}])
 .controller('formController', function($scope, $state, $http, $rootScope) {
 
     // we will store all of our form data in this object
 
-
+    $scope.imgArray = [], $scope.imgFileArray = [];
 
     $scope.next = function(nextState){
       $state.go(nextState);
@@ -81,8 +109,11 @@ app.config(function($stateProvider, $urlRouterProvider) {
     $scope.login = function(user){
       $http.post("/login", {user:user})
         .then(function(response){
-          if(response.data == "yes"){
+          if(response.data != "no"){
               alert("You Are successfully login");
+              $rootScope.id = response.data[0]._id
+              $state.go('home');
+
           }else{
               alert("No Data Found");
           }
@@ -111,6 +142,51 @@ app.config(function($stateProvider, $urlRouterProvider) {
         });
     };
 
+    $scope.photos = [];
+
+    $('#photo1').on("change", function(e){
+      uploadFile("photo1");
+          });
+    $('#photo2').on("change", function(){
+      uploadFile("photo2")
+    });
+    $('#photo3').on("change", function(){
+      uploadFile("photo3")
+    });
+
+    function uploadFile(id){
+      var file    = document.getElementById(id).files[0];
+      var fd = new FormData();
+
+      fd.append('file', file);
+      var uploadUrl = '/saveImage';
+
+      $http.post(uploadUrl, fd, {
+          transformRequest: angular.identity,
+          headers: { 'Content-Type': undefined }
+      })
+      .then(function(response) {
+          $scope.photos.push(file.name);
+      })
+    }
+
+
+    $scope.createSession = function(session, photos){
+      console.log(session, photos, $rootScope.id);
+      $http.post("/createSession", {session,photos,{id:$rootScope.userId}, createSession:true})
+        .then(function(response){
+          console.log(response);
+            // alert("You successfully reset your password");
+        });
+    }
+
+    $scope.viewSession = function(userid){
+      // $http.post("/viewSession", {userId:userid})
+      //   .then(function(response){
+      //     console.log(response);
+      //       alert("You successfully reset your password");
+      //   });
+    }
     // $http.get("/verify")
     //   .then(function(response){
     //       alert("You successfully reset your password");

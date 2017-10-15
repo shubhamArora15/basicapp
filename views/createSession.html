@@ -1,0 +1,32 @@
+<section style="width:80%;margin:auto">
+  <script src='https://www.google.com/recaptcha/api.js'></script>
+
+  <center><h1>Create Session</h1></center>
+<form>
+  <div class="form-group">
+    <label for="name">Session name:</label>
+    <input type="name" class="form-control" id="name" ng-model = "session.name">
+  </div>
+  <div class="form-group">
+    <label for="photo1">Add image 1:</label>
+    <input id="photo1" type="file"
+   class="form-control" name="myFile"
+    ng-model = "photos">
+  </div>
+  <div class="form-group">
+    <label for="photo2">Add image 2:</label>
+    <input id="photo2" type="file"
+     name="photo2" class="form-control"
+    ng-model = "photos">
+  </div>
+  <div class="form-group">
+    <label for="photo3">Add Image 3:</label>
+    <input id="photo3" type="file"
+     name="photo3" class="form-control"
+    ng-model = "photos">
+  </div>
+
+  <button type="submit" class="btn btn-default" ng-click = "createSession(session, photos)">Submit</button>
+
+</form>
+</section>
