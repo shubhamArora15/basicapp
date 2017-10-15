@@ -111,7 +111,11 @@ app.config(function($stateProvider, $urlRouterProvider) {
         .then(function(response){
           if(response.data != "no"){
               alert("You Are successfully login");
-              $rootScope.id = response.data[0]._id
+              // $rootScope.id = response.data[0]._id
+              localStorage.setItem('id', JSON.stringify(response.data[0]._id));
+              localStorage.setItem('name', JSON.stringify(response.data[0].name));
+
+              // $rootScope.name = response.data[0].name
               $state.go('home');
 
           }else{
@@ -173,23 +177,42 @@ app.config(function($stateProvider, $urlRouterProvider) {
 
     $scope.createSession = function(session, photos){
       console.log(session, photos, $rootScope.id);
-      $http.post("/createSession", {session,photos,{id:$rootScope.userId}, createSession:true})
+      $http.post("/createSession", {session,photos,userId:localStorage.getItem('id'), createSession:true})
         .then(function(response){
           console.log(response);
+          $state.go("viewSession");
             // alert("You successfully reset your password");
         });
     }
+    $scope.viewSession = function(){
 
-    $scope.viewSession = function(userid){
-      // $http.post("/viewSession", {userId:userid})
-      //   .then(function(response){
-      //     console.log(response);
-      //       alert("You successfully reset your password");
-      //   });
+      $http.post("/viewSession", {userId:localStorage.getItem('id'), viewSession:true})
+        .then(function(response){
+          console.log(response.data);
+
+          if(response.data == "404"){
+            alert("no Session create new one");
+          }else{
+            $state.go('viewSession');
+            $scope.sessionList = response.data;
+          }
+        });
     }
-    // $http.get("/verify")
-    //   .then(function(response){
-    //       alert("You successfully reset your password");
-    //   });
 
+    $scope.getSessionData = function(id){
+      $http.post("/viewSession", {sessionId:id,getSessionData:true})
+      .then(function(response){
+        $scope.photosData = response.data[0].photos;
+        console.log($scope.photosData)
+      });
+    }
+
+    $scope.name = localStorage.getItem('name');
+
+    $scope.logout = function(){
+        localStorage.clear();
+        $state.go("login");
+        $scope.photosData = [];
+        alert("you are successfully logout");
+    }
 });

@@ -42,8 +42,19 @@ if(req.body.createSession){
     }
   });
 }else if(req.body.viewSession){
-  session.find({userId:req.body.userId},function(err, data){
+  console.log(req.body);
+  session.find({userId:req.body.userId}, function(err, data){
       if(data.length > 0){
+        res.send(data)
+      }  else{
+        res.send("404");
+      }
+  });
+}else if(req.body.getSessionData){
+  console.log(req.body, "dss");
+  session.find({_id:req.body.sessionId},function(err, data){
+      if(data.length > 0){
+        console.log(data);
         res.send(data)
       }  else{
         res.send("404");

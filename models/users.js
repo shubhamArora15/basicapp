@@ -2,10 +2,10 @@ var mongoose = require('mongoose');
 
 var userSchema = mongoose.Schema({
   name:{
-    type: Number
+    type: String
   },
   phone:{
-    type: String
+    type: Number
   },
   email:{
     type:String

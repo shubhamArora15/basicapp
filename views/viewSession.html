@@ -1,0 +1,35 @@
+<section ng-init = "viewSession()">
+  <center><h1>All Sessions</h1> </center> <a ng-click = "next('home')"> Go to Home</a>
+    <div class="well blockquote" ng-repeat = "session in sessionList">
+      <a ng-click = "getSessionData(session._id)" style="display:block;cursor:block" data-toggle="modal" data-target=".bs-example-modal-lg">
+        <span style="width:250px;height:250px;font-size:22px;">
+          <center>---- > {{session.session}}</center>
+        </span>
+      </a>
+    </div>
+    <hr>
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+            <!-- Wrapper for slides -->
+            <div class="carousel-inner">
+              <div class="item"  ng-class="{'active': $first}" ng-repeat = "photo in photosData">
+               <img class="img-responsive" src="/images/{{photo}}" alt="...">
+                <div class="carousel-caption">
+                </div>
+              </div>
+            </div>
+
+            <!-- Controls -->
+            <a class="left carousel-control" href="#carousel-example-generic" target = "_self" role="button" data-slide="prev">
+              <span class="glyphicon glyphicon-chevron-left"></span>
+            </a>
+            <a class="right carousel-control" href="#carousel-example-generic" role="button" target = "_self" data-slide="next">
+              <span class="glyphicon glyphicon-chevron-right"></span>
+            </a>
+        </div>
+    </div>
+  </div>
+</div>
+</section>

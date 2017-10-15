@@ -1,22 +1,12 @@
 <section>
   <div class="container">
     <div class="page-header">
-      <h1><center>Welcome: Guest</center></h1>
+      <h1><center>Welcome: {{name}}</center></h1>
     </div>
-
-      <div class="row">
-          <div class="col-md-4 col-sm-4">
-            <div class="thumbnail">
-              <img src="images/my.JPG" alt="Cinque Terre" width="100%">
-                <div class="caption">
-                  <span>Session 1</span>
-                </div>
-             </div>
-          </div>
-      </div>
+    <a ng-click = "logout()"> Logout</a>
       <div class="well blockquote">
-        <span style="width:50px;height:50px"><a ng-click = "next('createSession')">Create Session</a></span>
-        <span style="width:50px;height:50px"> <a ng-click = "viewSession('userid')">View Session</a></span>
+        <span style="width:250px;height:250px;background:lightgray"><a ng-click = "next('createSession')" style="display:block">Create Session</a></span>
+        <span style="width:250px;height:250px;background:lightgray"> <a ng-click = "viewSession('userid')" style="display:block">View Session</a></span>
       </div>
 
     </div>
