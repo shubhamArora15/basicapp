@@ -67,7 +67,11 @@ app.config(function($stateProvider, $urlRouterProvider) {
 
 		}
 	}
-}])
+}]).filter("trustUrl", ['$sce', function ($sce) {
+        return function (recordingUrl) {
+            return $sce.trustAsResourceUrl(recordingUrl);
+        };
+    }])
 .controller('formController', function($scope, $state, $http, $rootScope) {
 
     // we will store all of our form data in this object
@@ -115,7 +119,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
               localStorage.setItem('id', JSON.stringify(response.data[0]._id));
               localStorage.setItem('name', JSON.stringify(response.data[0].name));
 
-              // $rootScope.name = response.data[0].name
+              $rootScope.name = localStorage.getItem('name');
               $state.go('home');
 
           }else{
@@ -135,6 +139,12 @@ app.config(function($stateProvider, $urlRouterProvider) {
             $rootScope.newEmail = response;
         });
     };
+
+    $scope.split = function(value){
+          value = value.split(".");
+          ext = value[1];
+          return ext;
+    }
 
     // function to process the form
     $scope.resetPassword = function(user){

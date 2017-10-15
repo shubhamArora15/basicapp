@@ -4,10 +4,15 @@
       <a ng-click = "getSessionData(session._id)" style="display:block;cursor:block" data-toggle="modal" data-target=".bs-example-modal-lg">
         <span style="width:250px;height:250px;font-size:22px;">
           <center>---- > {{session.session}}</center>
+
         </span>
       </a>
     </div>
     <hr>
+    <audio   controls = "controls">
+    <source ng-src="'/images/+def.mp3'" style = "width:60px;;margin-left:30px;">
+    <!-- <source src="horse.mp3" type="audio/mpeg"> -->
+    </audio>
 <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
@@ -15,7 +20,19 @@
             <!-- Wrapper for slides -->
             <div class="carousel-inner">
               <div class="item"  ng-class="{'active': $first}" ng-repeat = "photo in photosData">
-               <img class="img-responsive" src="/images/{{photo}}" alt="...">
+               <img class="img-responsive" src="/images/{{photo}}"
+                ng-if = "split(photo) == 'jpg' || split(photo) == 'png' " alt="...">
+
+               <center><video ng-src="{{'/images/'+photo}}" ng-if = "split(photo) == 'mp4' || split(photo) == 'mkv'"  controls>
+               </video></center>
+                <span style="margin-left:200px;">
+                 <audio  ng-if = "split(photo) == 'mp3' " controls = "controls">
+                 <source ng-src="{{'/images/+photo'}}" style = "width:60px;;margin-left:30px;">
+                 <!-- <source src="horse.mp3" type="audio/mpeg"> -->
+                 </audio>
+               </span>
+
+             </center>
                 <div class="carousel-caption">
                 </div>
               </div>
