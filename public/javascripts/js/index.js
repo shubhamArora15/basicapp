@@ -129,6 +129,74 @@ app.config(function($stateProvider, $urlRouterProvider) {
         });
     };
 
+    $scope.checkEvent = function(e){
+        console.log(this, e);
+        console.log(document.getElementsByClassName('active'));
+        var element = document.getElementsByClassName('active');
+        $(element[0].id).removeAttr('autoplay')
+    }
+
+    $('#carousel-example-generic').on('slide.bs.carousel', function () {
+        console.log("sliding started", this);
+        console.log(document.getElementsByClassName('active'));
+        var element = document.getElementsByClassName('active');
+        var element2 = $(document.getElementsByClassName('active')).next("div");
+        console.log($(element[0]).find('video'));
+        console.log($(element2[0]).find('video'));
+          var videoElem = $(element[0]).find('video');
+          var videoElem2 = $(element2[0]).find('video');
+          var audioElem = $(element[0]).find('audio');
+          var audioElem2 = $(element2[0]).find('audio');
+          console.log(videoElem2, videoElem);
+
+          if(videoElem2.length > 0){
+            videoElem2[0].autoplay = true;
+            videoElem2[0].load();
+            pauseAudio();
+          }else if(videoElem.length > 0){
+            videoElem[0].autoplay = false;
+            pauseAudio();
+          }
+
+          console.log(audioElem, audioElem2);
+
+          if(audioElem2.length > 0){
+            audioElem2[0].autoplay = true;
+            audioElem2[0].load();
+            pauseVideo();
+          }else if(audioElem.length > 0){
+            console.log("dlkjflkdsj");
+            audioElem[0].autoplay = false;
+            pauseVideo()
+          }
+
+          function pauseAudio(){
+
+            if(audioElem2.length > 0){
+              audioElem2[0].pause();
+            }else if(audioElem.length > 0){
+              audioElem[0].pause();
+            }
+          }
+
+          function pauseVideo(){
+
+            if(videoElem2.length > 0){
+              videoElem2[0].pause();
+            }else if(videoElem.length > 0){
+              videoElem[0].pause();
+            }
+          }
+
+        var length = $(document.getElementsByClassName('active')).next("div").length;
+        if(length === 0){
+          pauseAudio();
+          pauseVideo();
+          // $(element2[0]).removeAttribute('autoplay');;$(element[0]).removeAttribute('autoplay');;
+        }
+      });
+
+
     // function to process the form
     $scope.reset = function(user){
       console.log(user);
