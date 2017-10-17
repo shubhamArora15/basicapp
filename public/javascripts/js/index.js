@@ -251,7 +251,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
       })
       .then(function(response) {
           $scope.photos.push(file.name);
-          str = "You Uploaded:  <span style = 'font-size:18px;'><b> "+$scope.photos.length +"</b></span> Media Files successfully";
+          str = "You Uploaded:  <span style = 'font-size:18px'><b> "+$scope.photos.length +"</b></span> Media Files successfully";
           $("#showData").html(str);
       })
     }
@@ -281,6 +281,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
 
             setTimeout(function () {
               response.data.forEach(function(item){
+                console.log(item.session)
 
                 var qrcode = new QRCode(item.session, {
                     text: "abc",
@@ -291,7 +292,8 @@ app.config(function($stateProvider, $urlRouterProvider) {
                     correctLevel : QRCode.CorrectLevel.H
                 });
 
-                var qrcode = qrcode.makeCode("http://basicapp.arorashubham.com/public/images/"+item.session); // This will make another code.
+                var qrcode = qrcode.makeCode("http://basicapp.arorashubham.com/#/viewSession/?session="+item.session); // This will make another code.
+
               });
             }, 10);
 
