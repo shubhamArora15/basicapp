@@ -5,7 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var cors = require('cors');
-var io = require('socket.io');
+io = require('socket.io');
 var mongoose = require('mongoose');
 
 var index = require('./routes/index');
@@ -19,6 +19,7 @@ var session  = require('./routes/session');
 var saveImage = require('./routes/saveImage');
 
 var app = express();
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -43,6 +44,8 @@ app.use('/verify',verify);
 app.use('/resetPassword', resetPassword);
 app.use('/createSession', session);
 app.use('/viewSession', session);
+app.use('/checkSession', session);
+// app.use('/findSession', session);
 app.use('/saveImage', saveImage);
 
 
@@ -66,8 +69,53 @@ db
 .on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
+
+var other = require('./io/other.js');
+var disconnect = require('./io/disconnect.js');
+
+
+// Set socket.io listeners.
+io.on('connection', (socket) => {
+
+  // Connection
+  console.log('===> User Connected.');
+
+  socket.on('user-connect', function(data){
+    socket.join(data.companyId);
+    // console.log(io.sockets.adapter.rooms);
+    console.log('===> User Added.');
+    // io.sockets.in(data.companyId).emit('message', io.sockets.adapter.rooms);
+  });
+
+
+  socket.on('sessionData', function(data){
+    console.log('=====> connecting agent', data);
+    socket.emit('newclientconnect',{ description: 'Hey, welcome!'});
+    socket.broadcast.emit('newclientconnect',{ description: "clients" + ' clients connected!'})
+
+  });
+
+
+  socket.on('disconnect', function(data){
+    socket.leave(data.companyid);
+    // console.log(io.sockets.adapter.rooms);
+    console.log('===>User Disconnected!');
+  });
+
+  socket.emit('getSocketInfo');
+
+  socket.on('user-away', function(data){
+    socket.leave(data.companyid);
+    // console.log(io.sockets.adapter.rooms);
+    console.log('===>User Away!');
+  });
+
+});
+
 app.get('*', function(req, res) {
-  res.sendFile("views/index.html",{root:__dirname}); // load the single view file (angular will handle the page changes on the front-end)
+  res.sendFile("index.html",{root:__dirname}); // load the single view file (angular will handle the page changes on the front-end)
   // res.redirect('/');
 });
 
@@ -92,4 +140,4 @@ app.use(function(err, req, res, next) {
 
 
 
-module.exports = app;
+module.exports = {app:app, server:server};

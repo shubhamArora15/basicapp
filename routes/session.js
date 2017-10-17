@@ -5,7 +5,6 @@ var nodemailer = require('nodemailer');
 var multer  =   require('multer');
 
 var session = require("../models/session");
-
 var storage =   multer.diskStorage({
   destination: function (req, file, callback) {
     callback(null, './images');
@@ -55,6 +54,24 @@ if(req.body.createSession){
   session.find({_id:req.body.sessionId},function(err, data){
       if(data.length > 0){
         console.log(data);
+        res.send(data)
+      }  else{
+        res.send("404");
+      }
+  });
+}else if(req.body.checkSession){
+  session.update({_id:req.body.sessionId},{status:"scan"},function(err, data){
+      if(data){
+        console.log(data);
+        res.send(data)
+      }  else{
+        res.send("404");
+      }
+  });
+}else if(req.body.findSession){
+  console.log(req.body, "dss");
+  session.find({status:"scan"},function(err, data){
+      if(data){
         res.send(data)
       }  else{
         res.send("404");

@@ -81,7 +81,6 @@ app.config(function($stateProvider, $urlRouterProvider) {
     $scope.next = function(nextState){
       $state.go(nextState);
     }
-
     // function to process the form
     $scope.createUser = function(user){
 
@@ -266,6 +265,13 @@ app.config(function($stateProvider, $urlRouterProvider) {
             // alert("You successfully reset your password");
         });
     }
+
+    var socket = io();
+    socket.on('newclientconnect',function(data) {
+      $state.go("home");
+    });
+
+
     $scope.viewSession = function(){
 
       $http.post("/viewSession", {userId:localStorage.getItem('id'), viewSession:true})
@@ -283,7 +289,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
               response.data.forEach(function(item){
                 console.log(item.session)
 
-                var qrcode = new QRCode(item.session, {
+                var qrcode = new QRCode(item._id, {
                     text: "abc",
                     width: 128,
                     height: 128,
@@ -292,17 +298,26 @@ app.config(function($stateProvider, $urlRouterProvider) {
                     correctLevel : QRCode.CorrectLevel.H
                 });
 
-                var qrcode = qrcode.makeCode("http://basicapp.arorashubham.com/#/viewSession/?session="+item.session); // This will make another code.
+                var qrcode = qrcode.makeCode(item._id); // This will make another code.
 
               });
             }, 10);
-
           }
         });
     }
 
+
+    // setTimeout(function () {
+    //   $http.post('/findSession',{findSession:true})
+    //     .then(function(response){
+    //         if(response.data.length > 0){
+    //           $state.go('home');
+    //         }
+    //     });
+    // }, 100);
+
     $scope.getSessionData = function(id){
-      $http.post("/viewSession", {sessionId:id,getSessionData:true})
+      $http.post("/viewSession", {sessionId:id, getSessionData:true})
       .then(function(response){
         $scope.photosData = response.data[0].photos;
       openSlideShow();

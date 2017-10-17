@@ -7,6 +7,8 @@ var sessionSchema = mongoose.Schema({
   photos:[],
   userId:{
     type:String
+  },status:{
+    type:String
   }
 });
 
