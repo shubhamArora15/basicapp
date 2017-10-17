@@ -128,12 +128,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
 
         });
     };
-
-    $scope.checkEvent = function(e){
-        // checkEventSlider();
-    }
-    // checkEventSlider();
-    // function checkEventSlider(){
+    function openSlideShow(){
     $('#carousel-example-generic').on('slide.bs.carousel', function () {
         var element = document.getElementsByClassName('active');
         var element2 = $(document.getElementsByClassName('active')).next("div");
@@ -200,6 +195,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
           // $(element2[0]).removeAttribute('autoplay');;$(element[0]).removeAttribute('autoplay');;
         }
       });
+    }
     // }
 
 
@@ -235,12 +231,12 @@ app.config(function($stateProvider, $urlRouterProvider) {
     $('#photo1').on("change", function(e){
       uploadFile("photo1");
           });
-    $('#photo2').on("change", function(){
-      uploadFile("photo2")
-    });
-    $('#photo3').on("change", function(){
-      uploadFile("photo3")
-    });
+    // $('#photo2').on("change", function(){
+    //   uploadFile("photo2")
+    // });
+    // $('#photo3').on("change", function(){
+    //   uploadFile("photo3")
+    // });
 
     function uploadFile(id){
       var file    = document.getElementById(id).files[0];
@@ -255,12 +251,14 @@ app.config(function($stateProvider, $urlRouterProvider) {
       })
       .then(function(response) {
           $scope.photos.push(file.name);
+          str = "You Uploaded:  <span style = 'font-size:18px;'><b> "+$scope.photos.length +"</b></span> Media Files successfully";
+          $("#showData").html(str);
       })
     }
 
 
     $scope.createSession = function(session, photos){
-      console.log(session, photos, $rootScope.id);
+      // console.log(session, photos, $rootScope.id);
       $http.post("/createSession", {session,photos,userId:localStorage.getItem('id'), createSession:true})
         .then(function(response){
           console.log(response);
@@ -277,8 +275,26 @@ app.config(function($stateProvider, $urlRouterProvider) {
           if(response.data == "404"){
             alert("no Session create new one");
           }else{
-            $state.go('viewSession');
+
             $scope.sessionList = response.data;
+            $state.go('viewSession');
+
+            setTimeout(function () {
+              response.data.forEach(function(item){
+
+                var qrcode = new QRCode(item.session, {
+                    text: "abc",
+                    width: 128,
+                    height: 128,
+                    colorDark : "#000000",
+                    colorLight : "#ffffff",
+                    correctLevel : QRCode.CorrectLevel.H
+                });
+
+                var qrcode = qrcode.makeCode("http://basicapp.arorashubham.com/public/images/"+item.session); // This will make another code.
+              });
+            }, 10);
+
           }
         });
     }
@@ -287,6 +303,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
       $http.post("/viewSession", {sessionId:id,getSessionData:true})
       .then(function(response){
         $scope.photosData = response.data[0].photos;
+      openSlideShow();
         console.log($scope.photosData)
       });
     }
