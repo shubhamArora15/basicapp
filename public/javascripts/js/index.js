@@ -250,7 +250,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
       })
       .then(function(response) {
           $scope.photos.push(file.name);
-          str = "You Uploaded:  <span style = 'font-size:18px'><b> "+$scope.photos.length +"</b></span> Media Files successfully";
+          str = "You Uploaded:  <span style = 'font-size:18px'><b> "+$scope.photos.length +"</b></span>  File successfully";
           $("#showData").html(str);
       })
     }
@@ -269,6 +269,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
     var socket = io();
     socket.on('newclientconnect',function(data) {
       $state.go("home");
+      // $("#carousel-example-generic").modal('show');
     });
 
 
