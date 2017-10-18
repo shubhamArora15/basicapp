@@ -9,6 +9,10 @@ app.config(function($stateProvider, $urlRouterProvider) {
             url: '/signup',
             templateUrl: 'signup.html',
             controller: 'formController'
+        }).state('slideShow', {
+            url: '/slideShow',
+            templateUrl: 'slideShow.html',
+            controller: 'formController'
         })
         .state('home', {
             url: '/home',
@@ -127,7 +131,17 @@ app.config(function($stateProvider, $urlRouterProvider) {
 
         });
     };
-    function openSlideShow(){
+
+      $('.carousel').carousel({
+        interval: 1000,
+        pause: "false"
+      });
+
+      var $item = $('.carousel .item');
+      var $wHeight = $(window).height();
+      $item.height($wHeight);
+      $item.addClass('full-screen');
+
     $('#carousel-example-generic').on('slide.bs.carousel', function () {
         var element = document.getElementsByClassName('active');
         var element2 = $(document.getElementsByClassName('active')).next("div");
@@ -194,7 +208,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
           // $(element2[0]).removeAttribute('autoplay');;$(element[0]).removeAttribute('autoplay');;
         }
       });
-    }
+    // }
     // }
 
 
@@ -268,7 +282,14 @@ app.config(function($stateProvider, $urlRouterProvider) {
 
     var socket = io();
     socket.on('newclientconnect',function(data) {
-      $state.go("home");
+      console.log(data.sessionId);
+      $http.post("/viewSession", {sessionId:data.sessionId, getSessionData:true})
+      .then(function(response){
+        $rootScope.photosData = response.data[0].photos;
+        $state.go('slideShow');
+        // openSlideShow();
+        // console.log($scope.photosData)
+      });
       // $("#carousel-example-generic").modal('show');
     });
 
@@ -320,9 +341,10 @@ app.config(function($stateProvider, $urlRouterProvider) {
     $scope.getSessionData = function(id){
       $http.post("/viewSession", {sessionId:id, getSessionData:true})
       .then(function(response){
-        $scope.photosData = response.data[0].photos;
-      openSlideShow();
-        console.log($scope.photosData)
+        $rootScope.photosData = response.data[0].photos;
+        $state.go('slideShow');
+        // openSlideShow();
+        // console.log($scope.photosData)
       });
     }
 

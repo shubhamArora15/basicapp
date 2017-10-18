@@ -9,44 +9,12 @@
       </a>
       <center><div ng-attr-id="{{session._id}}"></div></center>
     </div>
-    <hr>
+    <!-- <hr>
 <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="width:100%;height:100%">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
-      <div id="carousel-example-generic" class="carousel slide container"  style="margin:0 auto" data-ride="carousel">
-            <!-- Wrapper for slides -->
-            <div class="carousel-inner">
-              <div class="item" ng-attr-id = "{{photo}}" ng-class="{'active': $first}" ng-repeat = "photo in photosData">
 
-               <img class="img-responsive" style="height:100%;width:100%" src="/images/{{photo}}"
-                ng-if = "split(photo) == 'jpg' || split(photo) == 'png' " alt="...">
-
-                <span>
-                   <video ng-src="{{'/images/'+photo}}" style="height:100%;width:100%" ng-attr-id = "{{photo}}"  ng-if = "split(photo) == 'mp4' || split(photo) == 'mkv'"  controls>
-                   </video>
-                </span>
-                <span>
-                 <audio  ng-if = "split(photo) == 'mp3' " ng-attr-id = "{{photo}}" controls style = "width:100%">
-                   <source ng-src="{{'/images/'+photo}}" type="audio/mpeg">
-                   <!-- <source src="horse.mp3" type="audio/mpeg"> -->
-                 </audio>
-               </span>
-
-             </center>
-                <div class="carousel-caption">
-                </div>
-              </div>
-            </div>
-
-            <!-- Controls -->
-            <a class="left carousel-control" href="#carousel-example-generic" target = "_self" role="button" data-slide="prev">
-              <span class="glyphicon glyphicon-chevron-left" ng-click = "checkEvent(this.id)"></span>
-            </a>
-            <a class="right carousel-control" href="#carousel-example-generic" role="button" target = "_self" data-slide="next">
-              <span class="glyphicon glyphicon-chevron-right" ng-click = "checkEvent()"></span>
-            </a>
-        </div>
     </div>
   </div>
-</div>
+</div> -->
 </section>

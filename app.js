@@ -93,7 +93,7 @@ io.on('connection', (socket) => {
   socket.on('sessionData', function(data){
     console.log('=====> connecting agent', data);
     socket.emit('newclientconnect',{ description: 'Hey, welcome!'});
-    socket.broadcast.emit('newclientconnect',{ description: "clients" + ' clients connected!'})
+    socket.broadcast.emit('newclientconnect',{sessionId:data.sessionId})
 
   });
 

@@ -63,7 +63,8 @@ if(req.body.createSession){
   session.update({_id:req.body.sessionId},{status:"scan"},function(err, data){
       if(data){
         console.log(data);
-        res.send(data)
+        res.send(data);
+
       }  else{
         res.send("404");
       }
