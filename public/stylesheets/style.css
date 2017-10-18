@@ -6,3 +6,8 @@ body {
 a {
   color: #00B7FF;
 }
+form {
+  background: #E6E6FA;
+  padding:20px;
+  border-radius:3px;
+}

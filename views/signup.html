@@ -1,7 +1,7 @@
 <section style="width:80%;margin:auto">
   <script src='https://www.google.com/recaptcha/api.js'></script>
-
   <center><h1>Sign up</h1></center>
+  <hr>
 <form>
   <div class="form-group">
     <label for="name">Username:</label>
@@ -21,9 +21,10 @@
   </div>
 
   <div class="g-recaptcha" data-sitekey="6LeuVzQUAAAAAPcrJo3t2rbuTpbzoZq9nSaP6mqA" ng-model = "user.captcha"></div>
-
+<br>
   <button type="submit" class="btn btn-default" ng-click = "createUser(user)">Sign up</button>
-  <br>
-  <a ng-click = next('login') >Alreadty Member ? Login Here</a>
+
+  <button  class="btn btn-primary" ng-click = "next('login')">Alreadty Member ? Login Here</button>
+
 </form>
 </section>
