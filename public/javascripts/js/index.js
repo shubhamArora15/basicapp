@@ -137,22 +137,20 @@ app.config(function($stateProvider, $urlRouterProvider) {
         pause: "false"
       });
 
-      var $item = $('.carousel .item');
-      var $wHeight = $(window).height();
-      $item.height($wHeight);
-      $item.addClass('full-screen');
+      // var $item = $('.carousel .item');
+      // var $wHeight = $(window).height();
+      // $item.height($wHeight);
+      // $item.addClass('full-screen');
 
     $('#carousel-example-generic').on('slide.bs.carousel', function () {
         var element = document.getElementsByClassName('active');
         var element2 = $(document.getElementsByClassName('active')).next("div");
-        // var element3 = $(document.getElementsByClassName('active')).prev("div");
-
+        var firstElem = $( ".item" ).first();
         var videoElem = $(element[0]).find('video');
         var videoElem2 = $(element2[0]).find('video');
-        // var videoElem3 = $(element3[0]).find('video');
         var audioElem = $(element[0]).find('audio');
         var audioElem2 = $(element2[0]).find('audio');
-        // var audioElem3 = $(element3[0]).find('audio');
+
         function startStopCaurosol(elementNew){
           console.log(elementNew);
           $(elementNew).on('play', function (e) {
@@ -162,7 +160,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
               $("#carousel-example-generic").carousel();
           });
         }
-        console.log(videoElem2, videoElem, audioElem, audioElem2);
+        console.log(firstElem);
           if(videoElem2.length > 0){
             videoElem2[0].autoplay = true;
             videoElem2[0].load();
@@ -231,10 +229,8 @@ app.config(function($stateProvider, $urlRouterProvider) {
 
     // function to process the form
     $scope.resetPassword = function(user){
-      console.log(user);
       $http.post("/resetPassword", {user:user,email:user.email})
         .then(function(response){
-          console.log(response);
             alert("You successfully reset your password");
         });
     };
@@ -243,13 +239,8 @@ app.config(function($stateProvider, $urlRouterProvider) {
 
     $('#photo1').on("change", function(e){
       uploadFile("photo1");
-          });
-    // $('#photo2').on("change", function(){
-    //   uploadFile("photo2")
-    // });
-    // $('#photo3').on("change", function(){
-    //   uploadFile("photo3")
-    // });
+    });
+
 
     function uploadFile(id){
       var file    = document.getElementById(id).files[0];
