@@ -272,15 +272,25 @@ app.config(function($stateProvider, $urlRouterProvider) {
     }
 
     var socket = io();
+
+    socket.on('viewSessionList',function(data){
+      console.log("done");
+        $state.go('viewSession');
+    });
+
     socket.on('newclientconnect',function(data) {
       console.log(data.sessionId);
-      $http.post("/viewSession", {sessionId:data.sessionId, getSessionData:true})
-      .then(function(response){
-        $rootScope.photosData = response.data[0].photos;
-        $state.go('slideShow');
-        // openSlideShow();
-        // console.log($scope.photosData)
-      });
+      if(data.sessionId!="data"){
+        $http.post("/viewSession", {sessionId:data.sessionId, getSessionData:true})
+        .then(function(response){
+          $rootScope.photosData = response.data[0].photos;
+          $state.go('slideShow');
+          // openSlideShow();
+          // console.log($scope.photosData)
+        });
+      }else{
+        $state.go('viewSession');
+      }
       // $("#carousel-example-generic").modal('show');
     });
 

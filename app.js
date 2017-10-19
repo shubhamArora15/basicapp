@@ -97,6 +97,13 @@ io.on('connection', (socket) => {
 
   });
 
+  socket.on('sessionList', function(data){
+    console.log("done");
+    socket.emit('newclientconnect',{ description: 'Hey, welcome!'});
+    socket.broadcast.emit('newclientconnect',{sessionId:"data"})
+
+  });
+
 
   socket.on('disconnect', function(data){
     socket.leave(data.companyid);
